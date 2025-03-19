@@ -3,6 +3,8 @@
 Ветки:
   * wip_19.2_django_project_basic_configuration 
     - базовая настройка config/settings.py
+    - startapp dealer
+    - home.html webpage
   
   * 20.1 Работа с ORM в Django
 
