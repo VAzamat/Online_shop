@@ -1,5 +1,10 @@
 from django.shortcuts import render
 
 # Create your views here.
-def home(request):
-    return render(request, 'dealer/home.html')
+def index(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        message = request.POST.get("message")
+        print( f'{username} ({email},{message})')
+    return render(request, 'dealer/index.html')

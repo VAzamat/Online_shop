@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<title>My Django test Page</title>
+<meta name="description" content="Our first page">
+<meta name="keywords" content="html template">
+</head>
+<body>
+    Hello, World!!!
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="product_name" placeholder="Название продукта" />
+        <br>
+        <textarea name="product_description" placeholder="Описание продукта"> </textarea>
+        <br>
+        <input type="submit" value="Отправить" />
+    </form>
+</body>
+</html>
