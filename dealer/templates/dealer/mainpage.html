@@ -1,0 +1,18 @@
+{% extends 'dealer/base.html' %}
+{% block content_ProductCard %}
+
+      <div class="col">
+        <div class="card mb-4 rounded-3 shadow-sm border-primary">
+          <div class="card-header py-3 text-bg-primary border-primary">
+            <h4 class="my-0 fw-normal">{{product_item.product_name}}</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">{{product_item.price}}<small class="text-body-secondary fw-light"> руб.</small></h1>
+              {{product_item.description}} <br>
+
+            <button type="button" class="w-100 btn btn-lg btn-primary">Купить</button>
+          </div>
+        </div>
+      </div>
+
+{% endblock %}
