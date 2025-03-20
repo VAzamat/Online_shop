@@ -22,6 +22,48 @@
 - фикстура (fixture) 
 - кастомная (консольная) команда 
 
+
+### развертывание из клонированного репозитария https://github.com
+
+для работы с database необходимо создать базу данных online_shop_fk9c0r0x_db и пользователю azamat назначить пароль UseVeryStrongPasswordHere (аналогично тем настройкам, что указаны в файле .env)
+```sql
+#psql (13.4)
+#Введите "help", чтобы получить справку.
+postgres=# CREATE ROLE azamat LOGIN PASSWORD 'UseVeryStrongPasswordHere';
+postgres=# ALTER USER azamat WITH PASSWORD 'UseVeryStrongPasswordHere';
+postgres=# DROP DATABASE  IF EXISTS online_shop_fk9c0r0x_db;
+postgres=# CREATE DATABASE online_shop_fk9c0r0x_db OWNER azamat;
+```
+
+```bash
+# клонируем репозиторий
+git clone https://github.com/VAzamat/Online_shop/
+# переходим в директорию
+cd Online_shop/
+# создаем виртуальное окружение
+ python3 -m venv env #создаем виртуальное окружение
+# активируем виртуальное окружение
+ source env/bin/activate #переходим в виртуальное окружение
+# редактируем .env (можно скопировать из минимально рабочую конфигурацию из .env.example)
+mv .env.example .env
+# активируем настройки переменных окружения из текущей директории
+source .env
+# Устанавливаем зависимости
+pip3 install -r requirements.txt
+# создание миграций
+python manage.py makemigrations
+# применение миграций
+python manage.py migrate
+ 
+#Для создания суперпользователя используется  команда
+python manage.py createsuperuser
+#заполнение базы данных через кастомную команду dealer/management/commands/fill.py
+python manage.py fill
+#запускаем сервер и смотрим результат http://127.0.0.1:8000/
+python manage.py runserve
+```
+
+
 ### Критерии выполнения заданий
 - [x] В приложении созданы модели: Product, Сategory.
 - [x] Введены для каждой модели требуемые поля
