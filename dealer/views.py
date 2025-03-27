@@ -3,7 +3,7 @@ from itertools import product
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
+from pytils.translit import slugify
 
 from dealer.models import Product, Category
 
@@ -13,6 +13,12 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_count += 1
+        self.object.save()
+        return self.object
+
 class ProductCreateView(CreateView):
     model = Product
     fields = ('product_name', 'description', 'category', 'price')
@@ -20,9 +26,25 @@ class ProductCreateView(CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ('product_name', 'description', 'category', 'price')
+    fields = ('product_name', 'description', 'category', 'price', 'is_active')
     success_url = reverse_lazy('dealer:list')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_item = form.save()
+            new_item.slug = slugify(new_item.product_name)
+            new_item.save()
+        return super().form_valid(form)
+
 
 class ProductDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy('dealer:list')
+
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_item = form.save()
+            new_item.slug = slugify(new_item.product_name)
+            new_item.save()
+        return super().form_valid(form)

@@ -22,6 +22,20 @@ class Product(models.Model):
     price = models.FloatField(verbose_name='цена')
     created_at = models.DateTimeField(verbose_name='дата создания',default=now, editable=False)
     updated_at = models.DateTimeField(verbose_name='дата изменения',default=now, editable=True)
+    views_count = models.IntegerField(
+        default=0,
+        verbose_name="Количество просмотров",
+        help_text="Введите количество просмотров"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="Опубликованность"
+    )
+    slug = models.CharField(
+        max_length=200,
+        verbose_name="slug",
+        help_text="человекочитаемая ссылка"
+    )
 
     def __str__(self):
         # Строковое отображение объекта
