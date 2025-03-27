@@ -1,5 +1,5 @@
 # Проект онлайн-магазина, который демонстрирует категории и входящие в них товары.
-## 21.1 FBV и CBV
+## 22.1 Forms Formsets
 
 Ветки:
   * wip_19.2_django_project_basic_configuration 
@@ -27,7 +27,10 @@
     - создан счетчик просмотров через функцию self.get_object()
     - перенаправление на динамическую страницу переопределением функции self.get_success_url()
     - выполнение валидации (математического действия) перед сохранением измененного объекта self.form_valid(form) 
-    - назначение slug для страниц
+    - назначение slug для страниц 
+  * wip_Forms_Formsets
+    - dd
+    - 
 
 Ключевые слова:
 - CRUD в Django, Class Based Model - Function Based Model

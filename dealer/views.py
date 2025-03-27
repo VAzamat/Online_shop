@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from pytils.translit import slugify
 
 from dealer.models import Product, Category
+from dealer.forms import ProductForm, CategoryForm
 
 class ProductListView(ListView):
     model = Product
@@ -21,12 +22,12 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('product_name', 'description', 'category', 'price')
+    form_class = ProductForm
     success_url = reverse_lazy('dealer:list')
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ('product_name', 'description', 'category', 'price', 'is_active')
+    form_class = ProductForm
     def get_success_url(self):
         return reverse('dealer:detail', args=[self.kwargs.get('pk')] )
 
