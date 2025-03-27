@@ -1,7 +1,7 @@
 from itertools import product
 
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 
@@ -27,7 +27,9 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
     fields = ('product_name', 'description', 'category', 'price', 'is_active')
-    success_url = reverse_lazy('dealer:list')
+    def get_success_url(self):
+        return reverse('dealer:detail', args=[self.kwargs.get('pk')] )
+
 
     def form_valid(self, form):
         if form.is_valid():
