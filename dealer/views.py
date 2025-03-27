@@ -1,23 +1,28 @@
 from itertools import product
 
 from django.shortcuts import render
-
-from dealer.models import Product
-
-
-# Create your views here.
-
-def index(request):
-    products = Product.objects.all()
-    for product_item in products:
-        max_lenght = 100
-        if len(product_item.description)>max_lenght:
-            product_item.description = product_item.description[0:max_lenght] + "..."
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
-    context = {
-        'product_list': products
-    }
+from dealer.models import Product, Category
 
-    return render(request, 'dealer/mainpage.html', context)
+class ProductListView(ListView):
+    model = Product
 
+class ProductDetailView(DetailView):
+    model = Product
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ('product_name', 'description', 'category', 'price')
+    success_url = reverse_lazy('dealer:list')
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = ('product_name', 'description', 'category', 'price')
+    success_url = reverse_lazy('dealer:list')
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('dealer:list')

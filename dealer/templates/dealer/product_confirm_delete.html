@@ -1,0 +1,15 @@
+{% extends 'dealer/base.html' %}
+{% load path_tag_filter %}
+{% block content_Card %}
+ <div class="row">
+      <div class="col">
+          <form method="post">
+	        {% csrf_token %}
+             <p>Действительно хотите удалить данный продукт:</p>
+              <p> <b>&laquo;{{object.product_name}}&raquo; из категории  &laquo;{{object.category}}&raquo;</b> </p>
+              <button type="submit" class="btn btn-success">Подтвердить</button>
+              <a href="{% url 'dealer:list' %}" class="btn btn-success btn-warning">Отмена</a>
+          </form>
+      </div>
+ </div>
+{% endblock %}

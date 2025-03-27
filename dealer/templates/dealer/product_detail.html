@@ -1,0 +1,22 @@
+{% extends 'dealer/base.html' %}
+{% load path_tag_filter %}
+{% block content_Card %}
+  <div class="row row-cols-1  text-center">
+      <div class="col">
+        <div class="card rounded-3 shadow-sm border-primary">
+          <div class="card-header py-3 text-bg-primary border-primary">
+            <h4 class="my-0 fw-normal">{{object.product_name}}</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">{{object.price}}<small class="text-body-secondary fw-light"> руб.</small></h1>
+              {{object.description}} <br>
+              <img src="{{"dealer/Minduka_Present_Blue_Pack.png"|mediapath}}" alt="Present"><br>
+              <img width="50px" src="{% get_media_prefix "dealer/Minduka_Present_Blue_Pack.png" %}" alt="Present"><br>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-primary" href="{% url 'dealer:list'  %}" role="button">К списку товаров</a>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}
