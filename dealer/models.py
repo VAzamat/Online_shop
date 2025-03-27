@@ -39,8 +39,21 @@ class Product(models.Model):
 
     def __str__(self):
         # Строковое отображение объекта
-        return f'{self.pk} {self.product_name} {self.price} {self.category}'
+        return f'{self.product_name} из категории   {self.category} по цене {self.price}'
 
     class Meta:
         verbose_name = 'продукт' # Настройка для наименования одного объекта
         verbose_name_plural = 'продукты' # Настройка для наименования набора объектов
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    version_name = models.CharField(max_length=70, verbose_name='Наименование версии')
+    version_number = models.CharField(max_length=10, verbose_name='Номер версии')
+    is_active = models.BooleanField( default=False,  verbose_name="Активная/Неактивная" )
+
+    def __str__(self):
+        return f'{self.version_number} {self.version_name} для {self.product}'
+
+    class Meta:
+        verbose_name = 'версия' # Настройка для наименования одного объекта
+        verbose_name_plural = 'версии' # Настройка для наименования набора объектов
