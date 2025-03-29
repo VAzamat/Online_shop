@@ -27,6 +27,43 @@ class ProductCreateView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('dealer:list')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def is_single_true(self, myforms):
+        count_true = 0
+        for form_item in myforms:
+            if form_item["is_active"].value():
+                count_true += 1
+        return count_true<2
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+
+        if form.is_valid():
+            new_item = form.save()
+            new_item.slug = slugify(new_item.product_name)
+            new_item.save()
+
+        if self.is_single_true(formset.forms):
+            if formset.is_valid():
+                self.object = form.save()
+                formset.instance = self.object
+                formset.save()
+        else:
+            form.add_error('product_name', 'Только одна версия может быть активной')
+            return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+        return super().form_valid(form)
+
+
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
