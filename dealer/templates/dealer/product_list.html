@@ -1,5 +1,6 @@
 {% extends 'dealer/base.html' %}
 {% load path_tag_filter %}
+
 {% block content_Card %}
   <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
     {% for object in object_list %}
@@ -11,6 +12,7 @@
           <div class="card-body">
             <h1 class="card-title pricing-card-title">{{object.price}}<small class="text-body-secondary fw-light"> руб.</small></h1>
               {{object.description}} <br>
+
               <img src="{{"dealer/Minduka_Present_Blue_Pack.png"|mediapath}}" alt="Present"><br>
               <img width="50px" src="{% get_media_prefix "dealer/Minduka_Present_Blue_Pack.png" %}" alt="Present"><br>
           </div>
@@ -19,6 +21,10 @@
             <a class="btn btn-primary" href="{% url 'dealer:detail' object.pk %}" role="button">Подробнее</a>
             <a class="btn btn-primary" href="{% url 'dealer:update' object.pk %}" role="button">Изменить</a>
             <a class="btn btn-primary" href="{% url 'dealer:delete' object.pk %}" role="button">Удалить</a>
+            <br>
+            {% if active_versions|myindex:forloop.counter0 %}
+            ver. {{ active_versions|myindex:forloop.counter0 }}
+            {% endif %}
           </div>
         </div>
       </div>

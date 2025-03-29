@@ -13,7 +13,10 @@
               <img src="{{"dealer/Minduka_Present_Blue_Pack.png"|mediapath}}" alt="Present"><br>
               <img width="50px" src="{% get_media_prefix "dealer/Minduka_Present_Blue_Pack.png" %}" alt="Present"><br>
           </div>
-          <span>{{object.slug}}</span>
+          <span>{{object.slug}} </span>
+            {% if active_version %}
+            ver. {{ active_version }}
+            {% endif %}
           <div class="card-footer">
             <span class="my-0 fw-normal">Просмотров: {{object.views_count}}</span><br/>
             <a class="btn btn-primary" href="{% url 'dealer:list'  %}" role="button">К списку товаров</a>

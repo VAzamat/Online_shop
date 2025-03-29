@@ -52,7 +52,10 @@ class Version(models.Model):
     is_active = models.BooleanField( default=False,  verbose_name="Активная/Неактивная" )
 
     def __str__(self):
-        return f'{self.version_number} {self.version_name} для {self.product}'
+        if self.is_active:
+            return f'[X]{self.version_number} {self.version_name} для {self.product}'
+        else:
+            return f'[-] {self.version_number} {self.version_name} для {self.product}'
 
     class Meta:
         verbose_name = 'версия' # Настройка для наименования одного объекта

@@ -43,3 +43,6 @@ def get_media_prefix(path):
     fullpath = os.path.join("", settings.MEDIA_URL, path)
     return fullpath
 
+@register.filter
+def myindex(indexable, i):
+    return indexable[i]

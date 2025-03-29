@@ -12,6 +12,17 @@ from dealer.forms import ProductForm, CategoryForm, VersionForm
 class ProductListView(ListView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        active_versions = [ "" for i in range(len(context_data['object_list'])) ]
+        for num, object in enumerate( context_data['object_list']):
+            versions = Version.objects.select_related().filter(product=object.pk)
+            for version in versions:
+                if version.is_active:
+                    active_versions[num] = version.version_number
+        context_data['active_versions'] = active_versions
+        return context_data
+        #        product_id = Product.objects.filter(pk=kwargs['object'].pk)[0]
 
 class ProductDetailView(DetailView):
     model = Product
@@ -21,6 +32,15 @@ class ProductDetailView(DetailView):
         self.object.views_count += 1
         self.object.save()
         return self.object
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        product_id = Product.objects.filter(pk=kwargs['object'].pk)[0]
+        versions = Version.objects.select_related().filter(product=product_id)
+        for version in versions:
+            if version.is_active:
+                context_data['active_version'] = version.version_number
+        return context_data
 
 class ProductCreateView(CreateView):
     model = Product
