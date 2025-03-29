@@ -36,4 +36,4 @@ class CategoryForm(StyleFormMixin, forms.ModelForm):
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version  # Обязательно указываем модель
-        fields = '__all__'
+        fields = ('product','version_name','version_number','is_active')

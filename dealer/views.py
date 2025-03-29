@@ -1,7 +1,7 @@
-from itertools import product
 
 from django.forms.models import inlineformset_factory
-from django.shortcuts import render
+
+
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
@@ -42,21 +42,33 @@ class ProductUpdateView(UpdateView):
             context_data['formset'] = VersionFormset(instance=self.object)
         return context_data
 
+    def is_single_true(self, myforms):
+        count_true = 0
+        for form_item in myforms:
+            if form_item["is_active"].value():
+                count_true += 1
+        return count_true<2
+
     def form_valid(self, form):
         context_data = self.get_context_data()
         formset = context_data['formset']
-        if form.is_valid() and formset.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
 
+        if form.is_valid():
             new_item = form.save()
             new_item.slug = slugify(new_item.product_name)
             new_item.save()
 
-            return super().form_valid(form)
+        if self.is_single_true(formset.forms):
+            if formset.is_valid():
+                self.object = form.save()
+                formset.instance = self.object
+                formset.save()
         else:
+            form.add_error('product_name', 'Только одна версия может быть активной')
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+        return super().form_valid(form)
+
 
 class ProductDeleteView(DeleteView):
     model = Product
